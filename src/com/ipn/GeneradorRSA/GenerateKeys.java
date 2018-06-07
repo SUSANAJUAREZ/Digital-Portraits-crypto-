@@ -10,6 +10,7 @@ import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Arrays;
+import java.util.Base64;
 
 public class GenerateKeys {
 
@@ -56,7 +57,7 @@ public class GenerateKeys {
         myKeys.createKeys();
         System.out.println("La llave publica es: " + Arrays.toString(myKeys.publicKey.getEncoded()));
         System.out.println("La llave privada es: " + Arrays.toString(myKeys.privateKey.getEncoded()));
-        myKeys.writeToFile("Llaves/publicKey.txt", myKeys.getPublicKey().getEncoded());
-        myKeys.writeToFile("Llaves/privateKey.txt", myKeys.getPrivateKey().getEncoded());
+        myKeys.writeToFile("Llaves/publicKey.txt", Base64.getEncoder().encode(myKeys.getPublicKey().getEncoded()));
+        myKeys.writeToFile("Llaves/privateKey.txt", Base64.getEncoder().encode(myKeys.getPrivateKey().getEncoded()));
     }
 }

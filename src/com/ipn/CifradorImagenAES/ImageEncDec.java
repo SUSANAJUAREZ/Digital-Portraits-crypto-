@@ -15,13 +15,12 @@ import static java.lang.System.exit;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.Security;
-
-import javax.crypto.Cipher;
+import java.util.Base64;
 import javax.crypto.KeyGenerator;
+import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -60,6 +59,7 @@ public class ImageEncDec {
     public static byte[] encryptPdfFile(SecretKey key, byte[] content) {
         Cipher cipher;
         byte[] encrypted = null;
+        
         try {
             cipher = Cipher.getInstance("AES/CTR/NoPadding", "BCFIPS");
             cipher.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(new byte[16]));
@@ -82,7 +82,7 @@ public class ImageEncDec {
             key = new SecretKeySpec(Files.readAllBytes(dir), 0, Files.readAllBytes(dir).length, "AES");
             cipher = Cipher.getInstance("AES/CTR/NoPadding", "BCFIPS");
             cipher.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(new byte[16]));
-            encrypted = cipher.doFinal(content);
+            encrypted = cipher.doFinal(Base64.getEncoder().encode(content));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -91,11 +91,12 @@ public class ImageEncDec {
 
     public static byte[] decryptPdfFile(SecretKey key, byte[] textCryp) {
         Cipher cipher;
+        
         byte[] decrypted = null;
         try {
             cipher = Cipher.getInstance("AES/CTR/NoPadding", "BCFIPS");
             cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(new byte[16]));
-            decrypted = cipher.doFinal(textCryp);
+            decrypted = cipher.doFinal(Base64.getEncoder().encode(textCryp));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -144,7 +145,7 @@ public class ImageEncDec {
             keyGenerator.init(128);
             key = keyGenerator.generateKey();
             System.out.println(key);
-            writeToFile("LlavesAES/" + nombrellave + ".txt", key.getEncoded());
+            writeToFile("LlavesAES/" + nombrellave + ".txt", Base64.getEncoder().encodeToString(key.getEncoded()).getBytes());
             filellave = new File("LlavesAES/" + nombrellave + ".txt");
         } catch (IOException ioe) {
         }
