@@ -4,7 +4,7 @@ package com.ipn.CifradorImagenAES;
  *
  * @author yeyof
  */
-import cipher.Ventanas;
+import com.ipn.util.Ventanas;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -82,7 +82,7 @@ public class ImageEncDec {
             key = new SecretKeySpec(Files.readAllBytes(dir), 0, Files.readAllBytes(dir).length, "AES");
             cipher = Cipher.getInstance("AES/CTR/NoPadding", "BCFIPS");
             cipher.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(new byte[16]));
-            encrypted = cipher.doFinal(Base64.getEncoder().encode(content));
+            encrypted = cipher.doFinal(content);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -96,7 +96,7 @@ public class ImageEncDec {
         try {
             cipher = Cipher.getInstance("AES/CTR/NoPadding", "BCFIPS");
             cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(new byte[16]));
-            decrypted = cipher.doFinal(Base64.getEncoder().encode(textCryp));
+            decrypted = cipher.doFinal(textCryp);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -159,8 +159,9 @@ public class ImageEncDec {
         SecretKey skey;
         String nombrearchivo, encarchivo, kname;
         byte[] content, encrypted, decrypted;
-        int opc, opc2;
-        System.out.println("--------Cifrador de imagen--------"
+        int opc, opc2, rep;
+        do{
+            System.out.println("--------Cifrador de imagen--------"
                 + "\n 1.-Cifrar imagen\n"
                 + "2.-Descifrar imagen\n"
                 + "3.-Salir");
@@ -230,5 +231,6 @@ public class ImageEncDec {
             default:
                 exit(0);
         }
+        }while(opc!=3);  
     }
 }

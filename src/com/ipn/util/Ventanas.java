@@ -1,5 +1,5 @@
 
-package cipher;
+package com.ipn.util;
 
 import javax.swing.JOptionPane;
 
