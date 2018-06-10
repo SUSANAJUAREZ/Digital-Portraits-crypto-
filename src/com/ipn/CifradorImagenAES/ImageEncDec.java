@@ -136,7 +136,7 @@ public class ImageEncDec {
        return key;
     }
 
-    public static File llaveRSA(String nombrellave) throws NoSuchAlgorithmException, IOException, NoSuchProviderException {
+    public static File llaveAES(String nombrellave) throws NoSuchAlgorithmException, IOException, NoSuchProviderException {
         KeyGenerator keyGenerator;
         SecretKey key;
         File filellave = null;
@@ -175,7 +175,7 @@ public class ImageEncDec {
                 switch (opc2) {
                     case 1:
                         kname = Ventanas.entradaS("Ingrese el nombre del archivo de la llave");
-                        llave = llaveRSA(kname);
+                        llave = llaveAES(kname);
 
                         nombrearchivo = JOptionPane.showInputDialog("Ingrese nombre de la imagen");
 
