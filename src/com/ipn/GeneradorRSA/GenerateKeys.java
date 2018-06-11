@@ -29,7 +29,6 @@ public class GenerateKeys {
         this.pair = this.keyGen.generateKeyPair();
         this.privateKey = pair.getPrivate();
         this.publicKey = pair.getPublic();
-
     }
 
     public PrivateKey getPrivateKey() {
@@ -53,7 +52,7 @@ public class GenerateKeys {
     }
 
     public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchProviderException, IOException {
-        GenerateKeys myKeys = new GenerateKeys(1024);
+        GenerateKeys myKeys = new GenerateKeys(2048);
         myKeys.createKeys();
         System.out.println("La llave publica es: " + Arrays.toString(myKeys.publicKey.getEncoded()));
         System.out.println("La llave privada es: " + Arrays.toString(myKeys.privateKey.getEncoded()));
