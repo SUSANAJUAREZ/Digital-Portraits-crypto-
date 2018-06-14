@@ -25,7 +25,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.swing.JOptionPane;
-import org.bouncycastle.jcajce.provider.BouncyCastleFipsProvider;
+//import org.bouncycastle.jcajce.provider.BouncyCastleFipsProvider;
 
 public class ImageEncDec {
 
@@ -68,7 +68,7 @@ public class ImageEncDec {
         byte[] encrypted = null;
 
         try {
-            cipher = Cipher.getInstance("AES/CTR/NoPadding", "BCFIPS");
+            cipher = Cipher.getInstance("AES/CTR/NoPadding");
             cipher.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(new byte[16]));
             encrypted = cipher.doFinal(content);
         } catch (Exception e) {
@@ -93,7 +93,7 @@ public class ImageEncDec {
             dir = Paths.get(llave.getPath());
             //System.out.println(dir);
             key = new SecretKeySpec(Files.readAllBytes(dir), 0, Files.readAllBytes(dir).length, "AES");
-            cipher = Cipher.getInstance("AES/CTR/NoPadding", "BCFIPS");
+            cipher = Cipher.getInstance("AES/CTR/NoPadding");
             cipher.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(new byte[16]));
             encrypted = cipher.doFinal(content);
         } catch (Exception e) {
@@ -118,7 +118,7 @@ public class ImageEncDec {
             dir = Paths.get(llave.getPath());
             //System.out.println(dir);
             key = new SecretKeySpec(Files.readAllBytes(dir), 0, Files.readAllBytes(dir).length, "AES");
-            cipher = Cipher.getInstance("AES/CTR/NoPadding", "BCFIPS");
+            cipher = Cipher.getInstance("AES/CTR/NoPadding");
             cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(new byte[16]));
             decrypted = cipher.doFinal(textCryp);
         } catch (Exception e) {
@@ -132,7 +132,7 @@ public class ImageEncDec {
 
         byte[] decrypted = null;
         try {
-            cipher = Cipher.getInstance("AES/CTR/NoPadding", "BCFIPS");
+            cipher = Cipher.getInstance("AES/CTR/NoPadding");
             cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(new byte[16]));
             decrypted = cipher.doFinal(textCryp);
         } catch (Exception e) {
@@ -203,7 +203,7 @@ public class ImageEncDec {
         SecretKey key;
         File filellave = null;
         try {
-            keyGenerator = KeyGenerator.getInstance("AES", "BCFIPS");
+            keyGenerator = KeyGenerator.getInstance("AES");
             keyGenerator.init(128);
             key = keyGenerator.generateKey();
             System.out.println(key);
@@ -213,7 +213,9 @@ public class ImageEncDec {
         }
         return filellave;
     }
-
+    
+    
+    /*
     public static void main(String args[])
             throws NoSuchAlgorithmException, InstantiationException, IllegalAccessException, IOException, NoSuchProviderException {
         Security.addProvider(new BouncyCastleFipsProvider());
@@ -295,4 +297,5 @@ public class ImageEncDec {
             }
         } while (opc != 3);
     }
+    */
 }

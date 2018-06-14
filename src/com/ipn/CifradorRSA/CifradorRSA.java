@@ -22,7 +22,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import javax.swing.JOptionPane;
-import org.bouncycastle.jcajce.provider.BouncyCastleFipsProvider;
+//import org.bouncycastle.jcajce.provider.BouncyCastleFipsProvider;
 
 /**
  *
@@ -65,7 +65,7 @@ public class CifradorRSA {
         byte[] encrypted = null;
 
         try {
-            cipher = Cipher.getInstance("RSA/NONE/PKCS1Padding", "BCFIPS");
+            cipher = Cipher.getInstance("RSA/NONE/PKCS1Padding");
             cipher.init(Cipher.PUBLIC_KEY, llavepublica);
             encrypted = cipher.doFinal(llaveAES);
         } catch (Exception e) {
@@ -85,7 +85,7 @@ public class CifradorRSA {
         Cipher cipher;
         byte[] decrypted = null;
         try {
-            cipher = Cipher.getInstance("RSA/NONE/PKCS1Padding", "BCFIPS");
+            cipher = Cipher.getInstance("RSA/NONE/PKCS1Padding");
             cipher.init(Cipher.PRIVATE_KEY, llaveprivada);
             decrypted = cipher.doFinal(llaveAES);
         } catch (Exception e) {
@@ -93,77 +93,79 @@ public class CifradorRSA {
         }
         return decrypted;
     }
+    
+    
 
-    public static void main(String args[])
-            throws NoSuchAlgorithmException, InstantiationException, IllegalAccessException, IOException, NoSuchProviderException, Exception {
-        Security.addProvider(new BouncyCastleFipsProvider());
-        File llave = null;
-        PublicKey pubkey;
-        PrivateKey privkey;
-        String llavepublica, llaveprivada, archllave, kname;
-        byte[] llaveAES, encrypted, decrypted;
-        int opc;
-        do {
-            System.out.println("--------Cifrador de imagen--------"
-                    + "\n 1.-Cifrar llave\n"
-                    + "2.-Descifrar llave\n"
-                    + "3.-Salir");
-            opc = Ventanas.entradaI("Seleccione una opcion");
-            switch (opc) {
-                case 1:
-                    //Obtenemos el contenido (en bytes) del archivo llaveAES
-                    kname = Ventanas.entradaS("Ingrese el nombre del archivo de la llave AES para cifrar");
-                    llaveAES = Base64.getDecoder().decode(getFile("LlavesAES/", kname + ".txt"));
-                    System.out.println(llaveAES);
-
-                    //Obtenemos en forma de variable PublicKey la llave pública con la que cifraremos la llave AES
-                    llavepublica = JOptionPane.showInputDialog("Ingrese nombre del archivo de llave publica");
-                    pubkey = getPublic("Llaves/" + llavepublica + ".txt");
-                    System.out.println(pubkey);
-
-                    //Parte que se encarga de cifrar el contenido de llaveAES con la llave publica
-                    encrypted = CifrarRSA(pubkey, llaveAES);
-                    System.out.println(encrypted);
-
-                    archllave = JOptionPane.showInputDialog("Ingrese nombre para guardar el archivo cifrado");
-                    saveFile(Base64.getEncoder().encode(encrypted), "CifradoRSA/", archllave);
-                    
-                    /*
-                    La linea de abajo sirve para crear un File a partir del arreglo encrypted.
-                    Esto hace que no necesites un método que retorne el cifrado en forma de File.
-                    */
-                    //File LlaveAESCifrada = new File(new String(encrypted));
-                    System.out.println("Done");
-                    break;
-
-                case 2:
-
-                    kname = Ventanas.entradaS("Ingrese el nombre del archivo de la llave AES a descifrar");
-                    llaveAES = Base64.getDecoder().decode(getFile("CifradoRSA/", kname + ".txt"));
-                    System.out.println(llaveAES);
-
-                    //Obtenemos en forma de variable PrivateKey la llave privada con la que descifraremos la llave AES
-                    llaveprivada = JOptionPane.showInputDialog("Ingrese nombre del archivo de llave privada");
-                    privkey = getPrivate("Llaves/" + llaveprivada + ".txt");
-                    System.out.println(privkey);
-
-                    //Parte que se encarga de cifrar el contenido de llaveAESCifrado con la llave privada
-                    decrypted = DescifrarRSA(privkey, llaveAES);
-                    System.out.println(decrypted);
-
-                    archllave = JOptionPane.showInputDialog("Ingrese nombre para guardar el archivo descifrado");
-                    saveFile(Base64.getEncoder().encode(decrypted), "DescifradoRSA/", archllave);
-                    
-                    /*
-                    La linea de abajo sirve para crear un File a partir del arreglo encrypted.
-                    Esto hace que no necesites un método que retorne el cifrado en forma de File.
-                    */
-                    //File LlaveAESCifrada = new File(new String(decrypted));
-                    System.out.println("Done");
-                    break;
-                default:
-                    exit(0);
-            }
-        } while (opc != 3);
-    }
+//    public static void main(String args[])
+//            throws NoSuchAlgorithmException, InstantiationException, IllegalAccessException, IOException, NoSuchProviderException, Exception {
+//        Security.addProvider(new BouncyCastleFipsProvider());
+//        File llave = null;
+//        PublicKey pubkey;
+//        PrivateKey privkey;
+//        String llavepublica, llaveprivada, archllave, kname;
+//        byte[] llaveAES, encrypted, decrypted;
+//        int opc;
+//        do {
+//            System.out.println("--------Cifrador de imagen--------"
+//                    + "\n 1.-Cifrar llave\n"
+//                    + "2.-Descifrar llave\n"
+//                    + "3.-Salir");
+//            opc = Ventanas.entradaI("Seleccione una opcion");
+//            switch (opc) {
+//                case 1:
+//                    //Obtenemos el contenido (en bytes) del archivo llaveAES
+//                    kname = Ventanas.entradaS("Ingrese el nombre del archivo de la llave AES para cifrar");
+//                    llaveAES = Base64.getDecoder().decode(getFile("LlavesAES/", kname + ".txt"));
+//                    System.out.println(llaveAES);
+//
+//                    //Obtenemos en forma de variable PublicKey la llave pública con la que cifraremos la llave AES
+//                    llavepublica = JOptionPane.showInputDialog("Ingrese nombre del archivo de llave publica");
+//                    pubkey = getPublic("Llaves/" + llavepublica + ".txt");
+//                    System.out.println(pubkey);
+//
+//                    //Parte que se encarga de cifrar el contenido de llaveAES con la llave publica
+//                    encrypted = CifrarRSA(pubkey, llaveAES);
+//                    System.out.println(encrypted);
+//
+//                    archllave = JOptionPane.showInputDialog("Ingrese nombre para guardar el archivo cifrado");
+//                    saveFile(Base64.getEncoder().encode(encrypted), "CifradoRSA/", archllave);
+//                    
+//                    /*
+//                    La linea de abajo sirve para crear un File a partir del arreglo encrypted.
+//                    Esto hace que no necesites un método que retorne el cifrado en forma de File.
+//                    */
+//                    //File LlaveAESCifrada = new File(new String(encrypted));
+//                    System.out.println("Done");
+//                    break;
+//
+//                case 2:
+//
+//                    kname = Ventanas.entradaS("Ingrese el nombre del archivo de la llave AES a descifrar");
+//                    llaveAES = Base64.getDecoder().decode(getFile("CifradoRSA/", kname + ".txt"));
+//                    System.out.println(llaveAES);
+//
+//                    //Obtenemos en forma de variable PrivateKey la llave privada con la que descifraremos la llave AES
+//                    llaveprivada = JOptionPane.showInputDialog("Ingrese nombre del archivo de llave privada");
+//                    privkey = getPrivate("Llaves/" + llaveprivada + ".txt");
+//                    System.out.println(privkey);
+//
+//                    //Parte que se encarga de cifrar el contenido de llaveAESCifrado con la llave privada
+//                    decrypted = DescifrarRSA(privkey, llaveAES);
+//                    System.out.println(decrypted);
+//
+//                    archllave = JOptionPane.showInputDialog("Ingrese nombre para guardar el archivo descifrado");
+//                    saveFile(Base64.getEncoder().encode(decrypted), "DescifradoRSA/", archllave);
+//                    
+//                    /*
+//                    La linea de abajo sirve para crear un File a partir del arreglo encrypted.
+//                    Esto hace que no necesites un método que retorne el cifrado en forma de File.
+//                    */
+//                    //File LlaveAESCifrada = new File(new String(decrypted));
+//                    System.out.println("Done");
+//                    break;
+//                default:
+//                    exit(0);
+//            }
+//        } while (opc != 3);
+//    }
 }

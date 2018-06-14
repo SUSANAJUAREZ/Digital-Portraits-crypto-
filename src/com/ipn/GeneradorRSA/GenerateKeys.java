@@ -51,6 +51,7 @@ public class GenerateKeys {
 
     }
 
+    /*
     public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchProviderException, IOException {
         GenerateKeys myKeys = new GenerateKeys(2048);
         myKeys.createKeys();
@@ -59,4 +60,5 @@ public class GenerateKeys {
         myKeys.writeToFile("Llaves/publicKey.txt", Base64.getEncoder().encode(myKeys.getPublicKey().getEncoded()));
         myKeys.writeToFile("Llaves/privateKey.txt", Base64.getEncoder().encode(myKeys.getPrivateKey().getEncoded()));
     }
+    */
 }

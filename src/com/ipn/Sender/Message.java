@@ -54,10 +54,11 @@ public class Message {
         out.close();
         System.out.println("Your file is ready.");
     }
-
+/*
     public static void main(String[] args) throws InvalidKeyException, IOException, Exception {
         String data = JOptionPane.showInputDialog("Type your message here");
 
         new Message(data, "llaves/privateKey.txt").writeToFile("Mensaje/SignedData.txt");
     }
+*/
 }

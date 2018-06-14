@@ -42,7 +42,9 @@ public class VerifyMessage {
         return kf.generatePublic(spec);
     }
 
+    /*
     public static void main(String[] args) throws Exception {
         new VerifyMessage("Mensaje/SignedData.txt", "Llaves/publicKey.txt");
     }
+    */
 }
